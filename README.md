@@ -22,6 +22,7 @@ An AI-powered icon recommendation tool that helps developers and designers find 
 - **🎨 Modern UI**: Built with shadcn/ui components and Tailwind CSS 4
 - **⚡ Fast Performance**: Next.js 15 with App Router and Turbopack for lightning-fast development
 - **🔧 Extensible**: Easy to add new icon libraries and customize recommendations
+- **🏷️ Tech Stack Display**: Header showcasing the project's technology stack with direct links to documentation
 
 ## 🚀 Demo
 
@@ -65,8 +66,8 @@ The AI provides context-aware recommendations with detailed explanations for why
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Alen-h/Icon-Recommender.git
-   cd Icon-Recommender
+   git clone https://github.com/alen-hh/icon-recommender.git
+   cd icon-recommender
    ```
 
 2. **Install dependencies:**
@@ -155,7 +156,7 @@ The application uses a system prompt from `public/system-prompt.md` to guide the
 ## 📁 Project Structure
 
 ```
-Icon-Recommender/
+icon-recommender/
 ├── app/                    # Next.js 15 App Router
 │   ├── api/
 │   │   └── recommend/
@@ -190,7 +191,7 @@ Contributions are welcome! Whether it's adding new icon libraries, improving AI 
 ### Development Setup
 
 1. Fork the project
-2. Clone your fork: `git clone https://github.com/your-username/Icon-Recommender.git`
+2. Clone your fork: `git clone https://github.com/your-username/icon-recommender.git`
 3. Install dependencies: `npm install`
 4. Set up your `.env.local` with API credentials (copy from `env.example`)
 5. Start development server: `npm run dev`
@@ -251,19 +252,10 @@ Add these environment variables in your Vercel dashboard:
 
 If you encounter any issues or have questions:
 
-- [Open an issue](https://github.com/Alen-h/Icon-Recommender/issues) on GitHub
+- [Open an issue](https://github.com/alen-hh/icon-recommender/issues) on GitHub
 - Check existing issues for solutions
 - Provide detailed reproduction steps for bugs
 
-## 📊 Roadmap
-
-- [ ] Add more icon libraries (Feather, Phosphor, etc.)
-- [ ] Implement icon favorites and collections
-- [ ] Add dark mode support
-- [ ] Export icon collections as SVG/PNG
-- [ ] API for programmatic access
-- [ ] Icon search without AI for faster browsing
-
 ---
 
-Made with ❤️ by [Alen-h](https://github.com/Alen-h) | Powered by AI
+Made with ❤️ by [alen-hh](https://github.com/alen-hh) | Powered by AI
