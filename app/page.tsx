@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Sparkles, Search, AlertCircle, Copy, Check } from "lucide-react";
+import { Loader2, Sparkles, Search, AlertCircle, Copy, Check, Github } from "lucide-react";
 import * as IconPark from "@icon-park/react";
 import * as AntDesign from "@ant-design/icons";
 import * as Heroicons from "@heroicons/react/24/outline";
@@ -345,7 +345,11 @@ export default function Home() {
   const [isFiltering, setIsFiltering] = useState(false);
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
-
+  const techStack = [
+    { name: 'Next.js', href: 'https://nextjs.org/', iconName: 'application' },
+    { name: 'TypeScript', href: 'https://www.typescriptlang.org/', iconName: 'file-code' },
+    { name: 'Tailwind CSS', href: 'https://tailwindcss.com/', iconName: 'layers' },
+  ];
 
   // Function to filter invalid icons from recommendations
   const filterValidIcons = async (recommendations: LLMResponse): Promise<LLMResponse> => {
@@ -450,209 +454,244 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-4 md:p-8">
-      <div className="mx-auto max-w-4xl space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-2">
-            <Sparkles className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Icon Recommender
-            </h1>
-          </div>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Get personalized icon recommendations powered by AI. Describe what you need, and get curated suggestions from the Iconpark library.
-          </p>
-        </div>
-
-        {/* Form */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5" />
-              Describe Your Icon Requirements
-            </CardTitle>
-            <CardDescription>
-              Tell us what kind of icon you need. Be specific about the context, style, or function.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Textarea
-              placeholder="e.g., I need an icon for a delete button in my mobile app, or I'm looking for icons for a user profile section..."
-              value={requirement}
-              onChange={(e) => setRequirement(e.target.value)}
-              onKeyDown={handleKeyDown}
-              rows={4}
-              className="resize-none"
-            />
-            {error && (
-              <p className="text-destructive text-sm font-medium">{error}</p>
-            )}
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-muted-foreground">
-                Press <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs">Cmd+Enter</kbd> to submit
-              </p>
-              <Button 
-                onClick={handleSubmit} 
-                disabled={isLoading || !requirement.trim()}
-                size="lg"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Getting Recommendations...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4" />
-                    Get Recommendations
-                  </>
-                )}
-              </Button>
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex h-14 items-center justify-center">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              {techStack.map((tech) => (
+                <a
+                  key={tech.name}
+                  href={tech.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={tech.name}
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                >
+                  <IconParkIcon iconName={tech.iconName} size={18} />
+                  {tech.name}
+                </a>
+              ))}
             </div>
-          </CardContent>
-        </Card>
+            <div className="h-5 w-px bg-border" />
+            <a
+              href="https://github.com/alen-hh/icon-recommender"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Star on GitHub"
+              tabIndex={0}
+              className="flex items-center gap-1 px-3 py-1.5 rounded border border-border bg-background/80 hover:bg-background transition-colors text-muted-foreground hover:text-primary font-medium focus:outline-none focus:ring-2 focus:ring-primary/60 focus:ring-offset-2 cursor-pointer"
+            >
+              <IconPark.GithubOne className="h-5 w-5" theme="outline" size={20} aria-label="GitHub" />
+              <span>Star</span>
+            </a>
+          </div>
+        </div>
+      </header>
+      <main className="p-4 md:p-8">
+        <div className="mx-auto max-w-4xl space-y-8">
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <div className="flex items-center justify-center gap-2">
+              <Sparkles className="h-8 w-8 text-primary" />
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                Icon Recommender
+              </h1>
+            </div>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Get personalized icon recommendations powered by AI. Describe what you need, and get curated suggestions from the Iconpark library.
+            </p>
+          </div>
 
-        {/* Filtering state */}
-        {isFiltering && (
+          {/* Form */}
           <Card>
-            <CardContent className="pt-6 text-center">
-              <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-              <p className="text-muted-foreground">
-                Validating icon recommendations...
-              </p>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Search className="h-5 w-5" />
+                Describe Your Icon Requirements
+              </CardTitle>
+              <CardDescription>
+                Tell us what kind of icon you need. Be specific about the context, style, or function.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Textarea
+                placeholder="e.g., I need an icon for a delete button in my mobile app, or I'm looking for icons for a user profile section..."
+                value={requirement}
+                onChange={(e) => setRequirement(e.target.value)}
+                onKeyDown={handleKeyDown}
+                rows={4}
+                className="resize-none"
+              />
+              {error && (
+                <p className="text-destructive text-sm font-medium">{error}</p>
+              )}
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-muted-foreground">
+                  Press <kbd className="bg-muted px-1.5 py-0.5 rounded text-xs">Cmd+Enter</kbd> to submit
+                </p>
+                <Button 
+                  onClick={handleSubmit} 
+                  disabled={isLoading || !requirement.trim()}
+                  size="lg"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Getting Recommendations...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-4 w-4" />
+                      Get Recommendations
+                    </>
+                  )}
+                </Button>
+              </div>
             </CardContent>
           </Card>
-        )}
 
-        {/* Results - Only show after query has been executed and results are available */}
-        {!isLoading && !isFiltering && hasQueried && !error && (() => {
-          // Get library display names
-          const getLibraryDisplayName = (library: IconLibrary) => {
-            const names = {
-              iconpark: 'IconPark',
-              font_awesome: 'Font Awesome',
-              ant_design: 'Ant Design',
-              heroicons: 'Heroicons',
-              lucide: 'Lucide'
-            };
-            return names[library];
-          };
-          
-          // Get library tag colors
-          const getLibraryTagColor = (library: IconLibrary) => {
-            const colors = {
-              iconpark: 'bg-blue-100 text-blue-800 border-blue-200',
-              font_awesome: 'bg-orange-100 text-orange-800 border-orange-200',
-              ant_design: 'bg-purple-100 text-purple-800 border-purple-200',
-              heroicons: 'bg-green-100 text-green-800 border-green-200',
-              lucide: 'bg-indigo-100 text-indigo-800 border-indigo-200'
-            };
-            return colors[library];
-          };
-          
-          // Calculate total recommendations across all libraries (using filtered recommendations)
-          const allRecommendations: Array<{ library: IconLibrary; icon: IconRecommendation }> = [];
-          (Object.keys(filteredRecommendations) as IconLibrary[]).forEach(library => {
-            const icons = filteredRecommendations[library] || [];
-            icons.forEach(icon => {
-              allRecommendations.push({ library, icon });
-            });
-          });
-          
-          // Show results if we have recommendations
-          if (allRecommendations.length > 0) {
-            return (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-semibold">Recommended Icons</h2>
-                  <p className="text-sm text-muted-foreground">
-                    {allRecommendations.length} valid icon{allRecommendations.length > 1 ? 's' : ''} found across {Object.keys(filteredRecommendations).length} librar{Object.keys(filteredRecommendations).length > 1 ? 'ies' : 'y'}
-                  </p>
-                </div>
-                <div className="grid gap-4 md:gap-6">
-                  {allRecommendations.map((item, index) => (
-                    <Card key={`${item.library}-${item.icon.name}-${index}`} className="transition-colors hover:bg-accent/50">
-                      <CardContent className="pt-6">
-                        <div className="grid md:grid-cols-[auto_200px_1fr_auto] gap-4 items-start">
-                          <div className="flex items-center justify-center w-16 h-16 bg-background border rounded-lg shadow-sm">
-                            <IconRenderer library={item.library} iconName={item.icon.name} size={32} />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-lg text-primary">
-                              {item.icon.name}
-                            </h3>
-                            <div className="flex items-center gap-2 mt-1">
-                              <span className={`text-xs px-2 py-1 rounded-md border font-medium ${getLibraryTagColor(item.library)}`}>
-                                {getLibraryDisplayName(item.library)}
-                              </span>
-                            </div>
-                          </div>
-                          <div>
-                            <p className="text-sm leading-relaxed">
-                              {item.icon.reason}
-                            </p>
-                          </div>
-                          <div className="flex flex-col gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => copyIconName(item.icon.name, item.library, index)}
-                              className="h-8 px-3 text-xs cursor-pointer"
-                            >
-                              {copiedStates[`name-${item.library}-${item.icon.name}-${index}`] ? (
-                                <>
-                                  <Check className="h-3 w-3 mr-1" />
-                                  Copied
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="h-3 w-3 mr-1" />
-                                  Name
-                                </>
-                              )}
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => copyReactCode(item.icon.name, item.library, index)}
-                              className="h-8 px-3 text-xs cursor-pointer"
-                            >
-                              {copiedStates[`code-${item.library}-${item.icon.name}-${index}`] ? (
-                                <>
-                                  <Check className="h-3 w-3 mr-1" />
-                                  Copied
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="h-3 w-3 mr-1" />
-                                  Code
-                                </>
-                              )}
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            );
-          }
-          
-          // Show empty state if no recommendations
-          return (
+          {/* Filtering state */}
+          {isFiltering && (
             <Card>
               <CardContent className="pt-6 text-center">
-                <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
                 <p className="text-muted-foreground">
-                  No recommendations found. Try describing your requirements differently.
+                  Validating icon recommendations...
                 </p>
               </CardContent>
             </Card>
-          );
-        })()}
+          )}
+
+          {/* Results - Only show after query has been executed and results are available */}
+          {!isLoading && !isFiltering && hasQueried && !error && (() => {
+            // Get library display names
+            const getLibraryDisplayName = (library: IconLibrary) => {
+              const names = {
+                iconpark: 'IconPark',
+                font_awesome: 'Font Awesome',
+                ant_design: 'Ant Design',
+                heroicons: 'Heroicons',
+                lucide: 'Lucide'
+              };
+              return names[library];
+            };
+            
+            // Get library tag colors
+            const getLibraryTagColor = (library: IconLibrary) => {
+              const colors = {
+                iconpark: 'bg-blue-100 text-blue-800 border-blue-200',
+                font_awesome: 'bg-orange-100 text-orange-800 border-orange-200',
+                ant_design: 'bg-purple-100 text-purple-800 border-purple-200',
+                heroicons: 'bg-green-100 text-green-800 border-green-200',
+                lucide: 'bg-indigo-100 text-indigo-800 border-indigo-200'
+              };
+              return colors[library];
+            };
+            
+            // Calculate total recommendations across all libraries (using filtered recommendations)
+            const allRecommendations: Array<{ library: IconLibrary; icon: IconRecommendation }> = [];
+            (Object.keys(filteredRecommendations) as IconLibrary[]).forEach(library => {
+              const icons = filteredRecommendations[library] || [];
+              icons.forEach(icon => {
+                allRecommendations.push({ library, icon });
+              });
+            });
+            
+            // Show results if we have recommendations
+            if (allRecommendations.length > 0) {
+              return (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-semibold">Recommended Icons</h2>
+                    <p className="text-sm text-muted-foreground">
+                      {allRecommendations.length} valid icon{allRecommendations.length > 1 ? 's' : ''} found across {Object.keys(filteredRecommendations).length} librar{Object.keys(filteredRecommendations).length > 1 ? 'ies' : 'y'}
+                    </p>
+                  </div>
+                  <div className="grid gap-4 md:gap-6">
+                    {allRecommendations.map((item, index) => (
+                      <Card key={`${item.library}-${item.icon.name}-${index}`} className="transition-colors hover:bg-accent/50">
+                        <CardContent className="pt-6">
+                          <div className="grid md:grid-cols-[auto_200px_1fr_auto] gap-4 items-start">
+                            <div className="flex items-center justify-center w-16 h-16 bg-background border rounded-lg shadow-sm">
+                              <IconRenderer library={item.library} iconName={item.icon.name} size={32} />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold text-lg text-primary">
+                                {item.icon.name}
+                              </h3>
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className={`text-xs px-2 py-1 rounded-md border font-medium ${getLibraryTagColor(item.library)}`}>
+                                  {getLibraryDisplayName(item.library)}
+                                </span>
+                              </div>
+                            </div>
+                            <div>
+                              <p className="text-sm leading-relaxed">
+                                {item.icon.reason}
+                              </p>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => copyIconName(item.icon.name, item.library, index)}
+                                className="h-8 px-3 text-xs cursor-pointer"
+                              >
+                                {copiedStates[`name-${item.library}-${item.icon.name}-${index}`] ? (
+                                  <>
+                                    <Check className="h-3 w-3 mr-1" />
+                                    Copied
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="h-3 w-3 mr-1" />
+                                    Name
+                                  </>
+                                )}
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => copyReactCode(item.icon.name, item.library, index)}
+                                className="h-8 px-3 text-xs cursor-pointer"
+                              >
+                                {copiedStates[`code-${item.library}-${item.icon.name}-${index}`] ? (
+                                  <>
+                                    <Check className="h-3 w-3 mr-1" />
+                                    Copied
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="h-3 w-3 mr-1" />
+                                    Code
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            
+            // Show empty state if no recommendations
+            return (
+              <Card>
+                <CardContent className="pt-6 text-center">
+                  <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">
+                    No recommendations found. Try describing your requirements differently.
+                  </p>
+                </CardContent>
+              </Card>
+            );
+          })()}
         </div>
+      </main>
     </div>
   );
 }
